@@ -1,21 +1,21 @@
 import json
 import time
+from pathlib import Path
 
 import pandas as pd
 
 
 class Grabber:
 
-    def __init__(self, team_json):
+    def __init__(self, team_json_path: Path):
 
-        self.team_json = team_json
-        self.team_links_dict = self._load_json(team_json)
+        self.team_links_dict = self._load_json(team_json_path)
         self.team_list = self.team_links_dict.keys()
 
         self.team_dfs = {}
         self.player_df = []
 
-    def _load_json(self, team_json):
+    def _load_json(self, team_json: Path) -> dict:
 
         with open(team_json, 'r') as f:
             data = json.load(f)
@@ -27,11 +27,11 @@ class Grabber:
         team_dfs = {}
 
         for team in self.team_list:
-            print(f'Processing {team}...')
+            print(f'Grabbing data for {team}...')
             data_link = self.team_links_dict[team]
             team_df = pd.read_html(data_link)[0]
 
-            time.sleep(0.1)
+            time.sleep(5.0)  # fbref only accepts 10 requests per min
 
             team_df.columns = [' '.join(col).strip()
                                for col in team_df.columns]
@@ -45,7 +45,7 @@ class Grabber:
 
         self.team_dfs = team_dfs
 
-    def generate_players(self):
+    def generate_players(self) -> pd.DataFrame:
 
         player_df = pd.concat(self.team_dfs.values())
 
