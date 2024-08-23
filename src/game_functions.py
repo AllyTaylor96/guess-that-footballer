@@ -11,9 +11,9 @@ def choose_player(player_df: pd.DataFrame, difficulty: str) -> dict:
     filtered_df = filter_on_difficulty(player_df, difficulty)
 
     player_pool_size = filtered_df.shape[0]
-    player_idx = random.randint(0, player_pool_size)
+    player_idx = random.randint(0, player_pool_size-1)
 
-    return dict(filtered_df.iloc[player_idx-1])
+    return dict(filtered_df.iloc[player_idx])
 
 def guess_player(player_info: dict, terminal_width: int) -> bool:
 
