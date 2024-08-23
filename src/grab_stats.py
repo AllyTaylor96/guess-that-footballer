@@ -35,7 +35,7 @@ def main():
 
     grabber.grab()
     player_df = grabber.generate_players()
-    sorted_player_df = player_df.sort_values('Playing Time Min',
+    sorted_player_df = player_df.sort_values('Playing_Time_Min',
                                              ascending=False)
     sorted_player_df.to_csv('data/player_list.csv', index=False)
 

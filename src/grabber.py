@@ -82,4 +82,5 @@ class Grabber:
                                                      'FW': 'Forward',
                                                      'GK': 'Goalkeeper'})
 
+        df.columns = [col.replace(' ', '_') for col in df.columns]
         return df
